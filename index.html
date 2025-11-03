@@ -155,7 +155,7 @@ body{
 
 /* Responsive */
 @media (max-width:768px){
-  .stage{grid-template-columns:1fr;gap:18px;padding:18px;text-align:center}
+  .stage{grid-template-columns:1fr;gap:18px;padding:18px;text-align:center;height: 100px;}
   .gift-wrap{height:260px}
   .gift{width:180px;height:180px}
   .title{font-size:22px}
@@ -341,7 +341,7 @@ async function loadLyricsFromSRT(){
 
 /* ---------- Hints animados ---------- */
 let loadingHint=0;
-const hintSequence=['Preparando el regalo...','Casi listo...','Introduce la fecha que significa tanto 💖'];
+const hintSequence=['Preparando el regalo...','Casi listo...','Ingresar Contraseña 🌷'];
 function cycleHints(){hintText.textContent=hintSequence[loadingHint%hintSequence.length];loadingHint++;}
 setInterval(cycleHints,2500);
 cycleHints();
