@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Regalo Tulipán 💐</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: linear-gradient(180deg, #fefcfb 0%, #fff8fa 50%, #f9fcfa 100%);
+  --primary: #f6c9d1;
+  --accent: #b1d1b3;
+  --soft: #fffdfc;
+  --card-shadow: 0 8px 30px rgba(177, 209, 179, 0.18);
+  --glass: rgba(255, 245, 248, 0.6);
+  font-family: 'Poppins', sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0;overflow-x:hidden}
+body{
+  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  color:#564a4a;
+}
+.stage{
+  width:100%;
+  max-width:980px;
+  min-height:640px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92));
+  border-radius:18px;
+  box-shadow:0 28px 80px rgba(177,209,179,0.15);
+  position:relative;
+  overflow:hidden;
+  padding:24px;
+  display:grid;
+  grid-template-columns:1fr 460px;
+  gap:24px;
+  align-items:start;
+}
+.left{display:flex;flex-direction:column;gap:18px}
+.title{font-size:26px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:12px;flex-wrap:wrap;text-align:center;justify-content:center}
+.subtitle{text-align:center;color:#3b3b3b;opacity:0.8}
+.gift-wrap{display:flex;align-items:center;justify-content:center;height:320px}
+.gift{width:220px;height:220px;background:linear-gradient(180deg,#fff 0%, #f9fbfb 100%);border-radius:14px;box-shadow:var(--card-shadow);position:relative;display:flex;align-items:center;justify-content:center;transition:transform .6s cubic-bezier(.2,.9,.3,1)}
+.ribbon{position:absolute;width:160px;height:34px;background:var(--primary);top:26px;border-radius:8px;transform:rotate(-10deg);box-shadow:0 6px 22px rgba(246,201,209,0.25)}
+.bow{position:absolute;width:42px;height:42px;border-radius:50%;background:var(--accent);top:8px;left:50%;transform:translateX(-50%);box-shadow:0 6px 22px rgba(177,209,179,0.25)}
+.lock{position:absolute;bottom:18px;right:18px;width:54px;height:54px;border-radius:12px;background:var(--glass);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);cursor:pointer}
+.lock svg{width:28px;height:28px;fill:var(--accent)}
+.code-box{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.code-input{padding:10px 12px;border-radius:12px;border:1px solid rgba(177,209,179,0.25);background:transparent;font-size:16px;text-align:center;width:150px}
+.btn{padding:10px 14px;border-radius:12px;background:var(--accent);color:white;border:none;cursor:pointer;transition:all .22s ease}
+.btn:hover{opacity:0.95;transform:translateY(-2px)}
+.hint{font-size:13px;color:#7a7a7a;opacity:0.95;text-align:center}
+
+/* Carta (ajustada) */
+.card{
+  position:absolute;
+  left:50%;
+  top:140px; /* bajar por defecto para evitar que quede fuera en móviles */
+  transform:translateX(-50%) translateY(-18px) scale(0.985);
+  width:90%;
+  max-width:440px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.98), #fafcfc);
+  border-radius:14px;
+  box-shadow:0 18px 40px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  opacity:0;
+  pointer-events:none;
+  transition:transform .7s cubic-bezier(.2,.9,.3,1),opacity .6s cubic-bezier(.2,.9,.3,1);
+  will-change:transform,opacity,filter;
+  z-index:60; /* encima de todo */
+}
+.card.show{transform:translateX(-50%) translateY(0) scale(1);opacity:1;pointer-events:auto}
+.card p{margin:0;font-size:15px;color:#564a4a;text-align:center;line-height:1.5}
+.close-card{margin-top:16px}
+
+/* Right / player */
+.right{display:flex;flex-direction:column;gap:18px;align-items:center}
+.player-card{
+  width:100%;
+  max-width:420px;
+  background:linear-gradient(180deg,rgba(255,255,255,0.92),#fafbfb);
+  border-radius:14px;
+  padding:18px;
+  box-shadow:var(--card-shadow);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative
+}
+.player-top{position:absolute;right:14px;top:14px;display:flex;gap:8px}
+.icon-btn{background:transparent;border:1px solid rgba(177,209,179,0.25);padding:8px;border-radius:8px;cursor:pointer}
+
+/* 🎵 Tocadiscos Pastel */
+.turntable-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.turntable{width:240px;height:240px;border-radius:999px;background:linear-gradient(180deg,#c7c3f4 0%, #b8b1e4 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.platter{width:200px;height:200px;border-radius:999px;background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08), transparent 30%), #a89bd8;display:flex;align-items:center;justify-content:center;position:relative}
+.vinyl{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 50% 50%, #222 0%, #111 60%);position:relative;box-shadow:inset 0 0 40px rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;transform-origin:center center;transition:transform .6s linear}
+.vinyl.play{animation:spin 3s linear infinite}
+.label{width:80px;height:80px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.1)}
+.label img{width:100%;height:100%;object-fit:cover}
+@keyframes spin{to{transform:rotate(360deg)}}
+.controls{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap;justify-content:center}
+.big-play{padding:12px 18px;border-radius:12px;background:linear-gradient(90deg, var(--accent), var(--primary));color:white;border:none;cursor:pointer;font-weight:600}
+.progress-wrap{width:100%;display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.time-row{display:flex;justify-content:space-between;font-size:13px;color:#6a5d76}
+.progress{width:100%;height:10px;background:rgba(177,209,179,0.25);border-radius:999px;overflow:hidden;cursor:pointer}
+.progress > .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent), var(--primary));border-radius:999px}
+
+/* 🎶 Letras */
+.lyrics-panel{
+  position:fixed;
+  right:22px;
+  top:84px;
+  width:380px;
+  max-height:72vh;
+  background:linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.6));
+  border-radius:14px;
+  box-shadow:0 30px 90px rgba(177,209,179,0.18);
+  padding:14px;
+  backdrop-filter:blur(6px);
+  transform:translateX(460px);
+  transition:transform .45s cubic-bezier(.2,.9,.3,1);
+  overflow:auto;
+  z-index:70;
+}
+.lyrics-panel.open{transform:translateX(0);animation:popIn .45s cubic-bezier(.2,.9,.3,1)}
+@keyframes popIn{0%{transform:translateX(480px) scale(.98)}60%{transform:translateX(-12px) scale(1.01)}100%{transform:translateX(0) scale(1)}}
+.lyrics-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.lyrics-body{display:flex;flex-direction:column;gap:8px;padding-bottom:12px}
+.lyric-line{padding:8px 10px;border-radius:8px;transition:all .18s ease;color:#564a4a}
+.lyric-line.active{background:linear-gradient(90deg, rgba(177,209,179,0.15), rgba(246,201,209,0.15));font-weight:700}
+.lyric-line .translation{display:block;font-size:13px;color:#776d84;opacity:0.9;margin-top:6px}
+.no-lyrics{font-size:14px;color:#776d84;opacity:0.8;text-align:center;padding:24px}
+
+/* Animación romántica */
+@keyframes romanticShake {
+  0% { transform: translateX(0) scale(1); }
+  18% { transform: translateX(-6px) rotate(-2.5deg) scale(1.02); }
+  36% { transform: translateX(8px) rotate(2deg) scale(1.03); }
+  60% { transform: translateX(-10px) rotate(-3deg) scale(1.04); }
+  80% { transform: translateX(6px) rotate(2deg) scale(1.03); }
+  100% { transform: translateX(0) scale(1.02); }
+}
+.gift.shake { animation: romanticShake 720ms cubic-bezier(.2,.9,.3,1); }
+.gift.moved { transform: translateX(-150px) !important; transition: transform .6s cubic-bezier(.2,.9,.3,1); }
+
+/* Responsive */
+@media (max-width:768px){
+  .stage{grid-template-columns:1fr;gap:18px;padding:18px;text-align:center}
+  .gift-wrap{height:260px}
+  .gift{width:180px;height:180px}
+  .title{font-size:22px}
+  .turntable{width:200px;height:200px}
+  .platter{width:170px;height:170px}
+  .vinyl{width:150px;height:150px}
+  .label{width:68px;height:68px}
+  .player-card{max-width:100%}
+  /* mover carta un poco más abajo en móvil si hiciera falta */
+  .card{top:200px}
+  .lyrics-panel{right:10px;left:10px;top:auto;bottom:14px;width:calc(100% - 20px);max-height:40vh}
+}
+</style>
+</head>
+<body>
+  <div class="stage" role="main">
+    <div class="left">
+      <div>
+        <div class="title">💐 Regalito para mi amorcito <span style="font-size:16px;font-weight:500;color:var(--accent)">Best Part (feat. H.E.R)</span></div>
+        <div class="subtitle">Introduce la fecha que abre el regalo</div>
+      </div>
+
+      <div class="gift-wrap">
+        <div class="gift" aria-hidden>
+          <div class="ribbon"></div>
+          <div class="bow"></div>
+          <div class="lock" id="lock" title="Ingresar código">
+            <svg viewBox="0 0 24 24"><path d="M17 8h-1V6a4 4 0 10-8 0v2H7a2 2 0 00-2 2v8a2 2 0 002 2h10a2 2 0 002-2v-8a2 2 0 00-2-2zm-8-2a2 2 0 114 0v2H9V6z"></path></svg>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:center">
+        <div class="code-box">
+          <input id="code" class="code-input" placeholder="Código (ddmmaa)" aria-label="Código" />
+          <button id="openBtn" class="btn">Abrir</button>
+        </div>
+        <div class="hint" id="hintText">Preparando el regalo...</div>
+      </div>
+
+      <div class="card" id="card" aria-hidden="true">
+        <p id="cardText">Hola mi amor 💕 Esta canción me hace pensar en ti cada vez que la escucho, amo imaginarte, imaginar tu hermmosa sonrisa, tus ojitos bellos mirandome, amo todo de ti y esta cancion lo dice claramente, eres el brillo en mi vida te amo muchoooooooooooooo :3 💖</p>
+        <div class="close-card"><button id="closeCard" class="btn" style="background:transparent;border:1px solid var(--accent);color:var(--accent)">Cerrar</button></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="player-card" id="playerCard" style="opacity:0;transform:translateY(10px);transition:all .6s ease;pointer-events:none">
+        <div class="player-top">
+          <button id="lyricsBtn" class="icon-btn" title="Mostrar letra">Letra</button>
+        </div>
+
+        <div class="turntable-wrap">
+          <div class="turntable" aria-hidden>
+            <div class="platter">
+              <div class="vinyl" id="vinyl">
+                <div class="label" id="label"><img id="coverImg" src="assets/cover.jpg" alt="Portada"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button id="playBtn" class="big-play">Reproducir</button>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="time-row"><span id="currentTime">0:00</span><span id="durationTime">3:29</span></div>
+            <div class="progress" id="progressBar" title="Haz clic para avanzar">
+              <div class="bar" id="progressBarFill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel de letras (inicialmente oculto, se muestra con .open) -->
+      <div class="lyrics-panel" id="lyricsPanel" aria-hidden="true">
+        <div class="lyrics-head">
+          <strong>Letra</strong>
+          <div style="display:flex;gap:8px">
+            <button id="transBtn" class="icon-btn">Ver traducción 🇪🇸</button>
+            <button id="closeLyrics" class="icon-btn">X</button>
+          </div>
+        </div>
+        <div class="lyrics-body" id="lyricsBody"></div>
+      </div>
+
+      <audio id="audio" src="assets/song.mp3" preload="metadata"></audio>
+    </div>
+  </div>
+
+<script>
+/* ---------- Variables y elementos ---------- */
+const SECRET='07092020';
+const audio=document.getElementById('audio');
+const codeInput=document.getElementById('code');
+const openBtn=document.getElementById('openBtn');
+const card=document.getElementById('card');
+const closeCard=document.getElementById('closeCard');
+const playerCard=document.getElementById('playerCard');
+const playBtn=document.getElementById('playBtn');
+const vinyl=document.getElementById('vinyl');
+const lock=document.getElementById('lock');
+const hintText=document.getElementById('hintText');
+const progressBar=document.getElementById('progressBar');
+const progressBarFill=document.getElementById('progressBarFill');
+const currentTimeEl=document.getElementById('currentTime');
+const durationTimeEl=document.getElementById('durationTime');
+
+const lyricsBtn=document.getElementById('lyricsBtn');
+const lyricsPanel=document.getElementById('lyricsPanel');
+const lyricsBody=document.getElementById('lyricsBody');
+const closeLyrics=document.getElementById('closeLyrics');
+const transBtn=document.getElementById('transBtn');
+
+const gift=document.querySelector('.gift');
+
+let showingTrans=false;
+
+/* ---------- Cargar letra desde SRT (si existe) ---------- */
+async function loadLyricsFromSRT(){
+  try{
+    const res = await fetch('assets/Lyrics.srt');
+    if(!res.ok){ window.LYRICS = []; return; }
+    const srt = await res.text();
+    const parts = srt.trim().split(/\n\s*\n/);
+    const timeExp = /(\d{2}):(\d{2}):(\d{2}),(\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2}),(\d{3})/;
+    const manualTrans = {
+      "Oh, hey":"Oh, hola",
+      "You don't know, babe":"No lo sabes, cariño",
+      "When you hold me":"Cuando me abrazas",
+      "And kiss me slowly":"Y me besas despacio",
+      "It's the sweetest thing":"Es lo más dulce",
+      "And it don't change":"Y eso no cambia",
+      "If I had it my way":"Si te tengo en mi camino",
+      "You would know that you are":"Sabrías que eres",
+      "You're the coffee that I need in the morning":"Eres el café que necesito en la mañana",
+      "You're my sunshine in the rain when it's pouring":"Eres el brillo del sol en la lluvia cuando esta lloviendo",
+      "Won't you give yourself to me? Give it all, oh":"¿No te entregarías a mí? Dando todo, oh",
+      "I just wanna see":"Solo quiero ver",
+      "I just wanna see how beautiful you are":"Solo quiero ver lo hermosa que eres",
+      "You know that I see it, I know you're a star":"Sabes que lo veo, sé que eres una estrella",
+      "Where you go, I'll follow, no matter how far":"Donde vayas, te seguiré, no importa qué tan lejos",
+      "If life is a movie, know you're the best part, oh":"Si la vida es una película, entonces eres la mejor parte, oh",
+      "You're the best part, oh-ooh":"Eres la mejor parte, oh-ooh",
+      "Best part":"La mejor parte",
+      "It's this sunrise":"Es este amanecer",
+      "And those brown eyes, yes":"Y esos ojos cafés, sí",
+      "You're the one that I desire":"Tu eres la unica que deseo",
+      "When we wake up":"Cuando despertamos",
+      "And then we make love (Make love)":"Y luego hacemos el amor (hacemos el amor)",
+      "It makes me feel so nice":"Me hace sentir tan bien",
+      "You're my water when I'm stuck in the desert":"Eres mi agua cuando estoy sediento en el desierto",
+      "You're the Tylenol I take when my head hurts":"Eres el Tylenol que tomo cuando me duele la cabeza",
+      "You're the sunshine on my life":"Eres el brillo en mi vida",
+      "If you love me, won't you say something?":"Si me amas, ¿no dirías algo?",
+      "If you love me, won't you?":"Si me amas, ¿no lo harías?",
+      "Won't you?":"¿No lo harías?",
+      "Love me, won't you?":"Ámame, ¿no lo harías?"
+    };
+    const out = [];
+    for(const part of parts){
+      const lines = part.split('\n').map(l=>l.trim()).filter(Boolean);
+      if(lines.length < 2) continue;
+      const timeLine = lines.find(l => l.includes('-->'));
+      if(!timeLine) continue;
+      const m = timeExp.exec(timeLine);
+      if(!m) continue;
+      const sh=parseInt(m[1]), sm=parseInt(m[2]), ss=parseInt(m[3]), sms=parseInt(m[4]);
+      const start = sh*3600 + sm*60 + ss + sms/1000;
+      const textLines = lines.filter(l => !l.includes('-->') && !/^\d+$/.test(l));
+      const text = textLines.join(' ');
+      const trans = manualTrans[text] || '';
+      out.push({t:start, text, trans});
+    }
+    window.LYRICS = out;
+  }catch(err){
+    window.LYRICS = [];
+    console.warn('No se pudieron cargar letras:', err);
+  }
+}
+
+/* ---------- Hints animados ---------- */
+let loadingHint=0;
+const hintSequence=['Preparando el regalo...','Casi listo...','Introduce la fecha que significa tanto 💖'];
+function cycleHints(){hintText.textContent=hintSequence[loadingHint%hintSequence.length];loadingHint++;}
+setInterval(cycleHints,2500);
+cycleHints();
+
+/* ---------- Utilidades UI ---------- */
+function showHintShake(el){ if(!el) return; el.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}],{duration:420});}
+
+/* ---------- Apertura de regalo / reproductor ---------- */
+function openGift(){
+  card.classList.add('show');
+  card.setAttribute('aria-hidden','false');
+  setTimeout(()=>closeCard.focus(),600);
+}
+function revealPlayer(){
+  playerCard.style.opacity='1';
+  playerCard.style.transform='translateY(0)';
+  playerCard.style.pointerEvents='auto';
+}
+
+/* Intento de abrir con código */
+function tryOpen(){
+  const code=(codeInput.value||'').trim();
+  if(code===SECRET){
+    // efecto: shake -> mover -> mostrar carta (como solicitaste antes)
+    gift.classList.remove('moved');
+    gift.classList.add('shake');
+    const onShakeEnd = ()=>{
+      gift.removeEventListener('animationend', onShakeEnd);
+      gift.classList.add('moved');
+      revealPlayer();
+      // animación de carta desde el centro del regalo (si quieres mantener la animación previa)
+      animateCardFromGift();
+    };
+    gift.addEventListener('animationend', onShakeEnd, {once:true});
+  } else {
+    showHintShake(codeInput);
+    codeInput.placeholder='Intenta de nuevo ❤️';
+    setTimeout(()=>codeInput.placeholder='Código (ddmmaa)',900);
+  }
+}
+
+/* ---------- Eventos básicos ---------- */
+openBtn.addEventListener('click', tryOpen);
+lock.addEventListener('click', ()=>{ codeInput.focus(); showHintShake(lock); });
+codeInput.addEventListener('keydown', e => { if(e.key === 'Enter') tryOpen(); });
+closeCard.addEventListener('click', ()=> {
+  card.classList.remove('show');
+  card.setAttribute('aria-hidden','true');
+});
+
+/* ---------- Reproductor ---------- */
+playBtn.addEventListener('click', ()=>{
+  if(audio.paused){
+    audio.play().then(()=>{ vinyl.classList.add('play'); playBtn.textContent='Pausar'; }).catch(()=>{ alert('No se pudo reproducir automáticamente.'); });
+  } else {
+    audio.pause(); vinyl.classList.remove('play'); playBtn.textContent='Reproducir';
+  }
+});
+audio.addEventListener('timeupdate', updateProgress);
+audio.addEventListener('loadedmetadata', ()=>{ durationTimeEl.textContent = formatTime(audio.duration||0); });
+audio.addEventListener('ended', ()=>{ vinyl.classList.remove('play'); playBtn.textContent='Reproducir'; });
+
+function updateProgress(){
+  const pct = (audio.currentTime / (audio.duration || 1)) * 100;
+  if(progressBarFill) progressBarFill.style.width = pct + '%';
+  if(currentTimeEl) currentTimeEl.textContent = formatTime(audio.currentTime);
+  highlightLyricForTime(audio.currentTime);
+}
+function formatTime(s){ if(!isFinite(s)) s = 0; const m = Math.floor(s/60); const sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
+
+progressBar.addEventListener('click', e => {
+  const rect = progressBar.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const pct = x / rect.width;
+  audio.currentTime = pct * audio.duration;
+  updateProgress();
+});
+
+/* ---------- Letras: render y sincronización ---------- */
+function renderLyrics(){
+  lyricsBody.innerHTML = '';
+  if(!window.LYRICS || window.LYRICS.length === 0){
+    lyricsBody.innerHTML = '<div class="no-lyrics">No hay letras cargadas.</div>';
+    return;
+  }
+  for(let i=0;i<window.LYRICS.length;i++){
+    const item = window.LYRICS[i];
+    const div = document.createElement('div');
+    div.className = 'lyric-line';
+    div.dataset.t = item.t;
+    div.dataset.index = i;
+    div.innerHTML = `<div class="orig">${item.text}</div>` + (item.trans && showingTrans ? `<div class="translation">${item.trans}</div>` : '');
+    div.addEventListener('click', ()=>{ audio.currentTime = item.t; updateProgress(); });
+    lyricsBody.appendChild(div);
+  }
+}
+
+function highlightLyricForTime(time){
+  if(!window.LYRICS || window.LYRICS.length === 0) return;
+  let idx = -1;
+  for(let i=0;i<window.LYRICS.length;i++){
+    if(time >= window.LYRICS[i].t) idx = i;
+    else break;
+  }
+  const nodes = lyricsBody.querySelectorAll('.lyric-line');
+  nodes.forEach(n => n.classList.remove('active'));
+  if(idx >= 0 && nodes[idx]){
+    nodes[idx].classList.add('active');
+    if(lyricsPanel.classList.contains('open')){
+      nodes[idx].scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+}
+
+/* ---------- Letras: botones ---------- */
+lyricsBtn.addEventListener('click', ()=>{
+  lyricsPanel.classList.toggle('open');
+  if(lyricsPanel.classList.contains('open')){
+    renderLyrics();
+    lyricsPanel.setAttribute('aria-hidden','false');
+  } else {
+    lyricsPanel.setAttribute('aria-hidden','true');
+  }
+});
+closeLyrics.addEventListener('click', ()=>{ lyricsPanel.classList.remove('open'); lyricsPanel.setAttribute('aria-hidden','true'); });
+transBtn.addEventListener('click', ()=>{ showingTrans = !showingTrans; transBtn.textContent = showingTrans ? 'Ocultar traducción 🇪🇸' : 'Ver traducción 🇪🇸'; renderLyrics(); });
+
+/* ---------- Cargar letras al inicio ---------- */
+loadLyricsFromSRT().then(()=>{ renderLyrics(); console.log('Letras cargadas'); });
+
+/* ---------- Animación: carta sale desde la caja ---------- */
+function animateCardFromGift(){
+  // asegurar que carta visible
+  card.style.display = 'flex';
+  card.style.pointerEvents = 'none';
+  const giftRect = gift.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+
+  const giftCenterX = giftRect.left + giftRect.width/2;
+  const giftCenterY = giftRect.top + giftRect.height/2;
+  const cardCenterX = cardRect.left + cardRect.width/2;
+  const cardCenterY = cardRect.top + cardRect.height/2;
+
+  const dx = giftCenterX - cardCenterX;
+  const dy = giftCenterY - cardCenterY;
+
+  const startTransform = `translate(${dx}px, ${dy}px) scale(0.6) rotate(-6deg)`;
+  const endTransform = `translateY(0px) scale(1) rotate(0deg)`;
+
+  const anim = card.animate([
+    { transform: startTransform, opacity: 0, filter: 'blur(6px)' },
+    { transform: 'translate(0px, -8px) scale(0.88)', opacity: 0.85, filter: 'blur(2px)', offset: 0.6 },
+    { transform: endTransform, opacity: 1, filter: 'blur(0px)' }
+  ], {
+    duration: 900,
+    easing: 'cubic-bezier(.2,.9,.3,1)'
+  });
+
+  anim.onfinish = () => {
+    card.classList.add('show');
+    card.style.transform = '';
+    card.style.opacity = '';
+    card.style.filter = '';
+    card.style.pointerEvents = '';
+    card.setAttribute('aria-hidden','false');
+    setTimeout(()=>closeCard.focus(),160);
+  };
+}
+
+/* small safety: if user rotated or small viewport cause overflow, ensure card visible */
+window.addEventListener('resize', ()=> {
+  // on mobile, make sure card top doesn't push it out of viewport
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  if(vw <= 768){
+    card.style.top = '200px';
+  } else {
+    card.style.top = '140px';
+  }
+});
+</script>
+</body>
+</html>
